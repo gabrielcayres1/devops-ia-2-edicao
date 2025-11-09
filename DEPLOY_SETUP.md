@@ -8,6 +8,7 @@ Configure os seguintes secrets no repositório GitHub (Settings > Secrets and va
 - `KUBECONFIG`: Conteúdo do arquivo kubeconfig do seu cluster Kubernetes
 - `DOCKERHUB_TOKEN`: Token de acesso do Docker Hub
 - `DATABASE_URL`: URL de conexão com o banco de dados PostgreSQL
+- `DIGITALOCEAN_ACCESS_TOKEN`: Token de acesso da Digital Ocean (mesmo usado para obter o kubeconfig)
 
 ### Variables:
 - `DOCKERHUB_USERNAME`: Seu username do Docker Hub

@@ -48,6 +48,11 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v5
               
+            - name: Install doctl
+              uses: digitalocean/action-doctl@v2
+              with:
+                token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+                
             - name: Set Kubernetes context
               uses: azure/k8s-set-context@v4
               with:
