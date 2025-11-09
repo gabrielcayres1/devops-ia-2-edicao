@@ -35,7 +35,7 @@ jobs:
                 context: ./01-conversao-distancia
                 file: ./01-conversao-distancia/Dockerfile
                 push: true
-                tags: fabricioveronez/bootcamp-conversao-distancia:v${{ github.run_number }}
+                tags: gabrielcayres/bootcamp-conversao-distancia:v${{ github.run_number }}
 
     CD:
         runs-on: ubuntu-latest
@@ -49,5 +49,5 @@ jobs:
               with:
                 kubeconfig: ${{ secrets.KUBECONFIG }}
                 manifest-path: 01-conversao-distancia/k8s/manifesto.yaml
-                image-name: fabricioveronez/bootcamp-conversao-distancia
+                image-name: gabrielcayres/bootcamp-conversao-distancia
                 image-tag: v${{ github.run_number }}
