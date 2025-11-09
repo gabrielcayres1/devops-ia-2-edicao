@@ -1,8 +1,11 @@
-name: CI-CD
+name: Conversao Distancia CI-CD
 on:
   push:
     branches: [ "main" ]
+    paths: 
+      - '01-conversao-distancia/**'
   workflow_dispatch:
+
 jobs:
     CI:
         runs-on: ubuntu-latest
@@ -15,26 +18,19 @@ jobs:
                 python-version: '3.11' 
                 
             - name: Install Dependencies
-              working-directory: 02-encontros-tech
+              working-directory: 01-conversao-distancia
               run: |
                 python -m pip install --upgrade pip 
                 pip install -r requirements.txt
-            
-            - name: Testes
-              working-directory: 02-encontros-tech
-              run: python -m pytest tests/ -v  
-                
-            - run: echo "Executar o Docker Build"
-            - run: echo "Enviar a Imagem Docker para o Docker Hub"
 
             - name: Build and Push Docker Image
               uses: ./.github/actions/docker-build
               with:
                 dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
                 dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
-                image-name: fabricioveronez/bootcamp-encontros-tech
-                dockerfile-path: ./02-encontros-tech/Dockerfile
-                context-path: ./02-encontros-tech
+                image-name: fabricioveronez/bootcamp-conversao-distancia
+                dockerfile-path: ./01-conversao-distancia/Dockerfile
+                context-path: ./01-conversao-distancia
                 tag: v${{ github.run_number }}
 
     CD:
@@ -48,6 +44,6 @@ jobs:
               uses: ./.github/actions/k8s-deploy
               with:
                 kubeconfig: ${{ secrets.KUBECONFIG }}
-                manifest-path: 02-encontros-tech/k8s/manifests.yaml
-                image-name: fabricioveronez/bootcamp-encontros-tech
+                manifest-path: 01-conversao-distancia/k8s/manifesto.yaml
+                image-name: fabricioveronez/bootcamp-conversao-distancia
                 image-tag: v${{ github.run_number }}
