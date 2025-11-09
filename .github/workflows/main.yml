@@ -27,15 +27,19 @@ jobs:
             - run: echo "Executar o Docker Build"
             - run: echo "Enviar a Imagem Docker para o Docker Hub"
 
-            - name: Build and Push Docker Image
-              uses: ./.github/actions/docker-build
+            - name: Login to Docker Hub
+              uses: docker/login-action@v3
               with:
-                dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
-                dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
-                image-name: fabricioveronez/bootcamp-encontros-tech
-                dockerfile-path: ./02-encontros-tech/Dockerfile
-                context-path: ./02-encontros-tech
-                tag: v${{ github.run_number }}
+                username: ${{ vars.DOCKERHUB_USERNAME }}
+                password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            - name: Build and push
+              uses: docker/build-push-action@v6
+              with:
+                context: ./02-encontros-tech
+                file: ./02-encontros-tech/Dockerfile
+                push: true
+                tags: fabricioveronez/bootcamp-encontros-tech:v${{ github.run_number }}
 
     CD:
         runs-on: ubuntu-latest
