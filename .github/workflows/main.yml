@@ -44,6 +44,12 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v5
               
+            - name: Create Secret
+              run: |
+                kubectl create secret generic encontros-tech-secret \
+                  --from-literal=database-url="${{ secrets.DATABASE_URL }}" \
+                  --dry-run=client -o yaml | kubectl apply -f -
+                  
             - name: Deploy to Kubernetes
               uses: ./.github/actions/k8s-deploy
               with:
